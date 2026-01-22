@@ -44,3 +44,20 @@ import Foundation
     }
     #expect(items.count == 3)
 }
+
+@Test func parseBinaryPlist() throws {
+    let dict: [String: Any] = [
+        "name": "Binary Test",
+        "count": 42,
+        "enabled": true
+    ]
+    let data = try PropertyListSerialization.data(fromPropertyList: dict, format: .binary, options: 0)
+
+    let node = try PlistParser().parse(data: data)
+
+    guard case .dictionary(_, let items) = node else {
+        #expect(Bool(false), "Expected dictionary")
+        return
+    }
+    #expect(items.count == 3)
+}
